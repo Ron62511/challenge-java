@@ -6,21 +6,13 @@ import com.example.transactions.exception.InvalidParentException;
 import com.example.transactions.exception.TransactionNotFoundException;
 import com.example.transactions.model.Transaction;
 import com.example.transactions.repository.TransactionRepository;
+import com.example.transactions.repository.TransactionRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
 
 /**
  * Tests unitarios para TransactionService.
@@ -30,19 +22,16 @@ import static org.mockito.Mockito.*;
  * - Suma con múltiples niveles
  * - Error cuando el parent no existe
  */
-@ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
 
-    @Mock
     private TransactionRepository repository;
-
-    @InjectMocks
     private TransactionService service;
 
     @BeforeEach
     void setUp() {
-        // Resetear el mock antes de cada test
-        reset(repository);
+        // Crear una nueva instancia del repositorio para cada test
+        repository = new TransactionRepositoryImpl();
+        service = new TransactionService(repository);
     }
 
     @Test
@@ -55,10 +44,6 @@ class TransactionServiceTest {
                 null
         );
 
-        when(repository.findById(id)).thenReturn(null);
-        when(repository.existsById(id)).thenReturn(false);
-        doNothing().when(repository).save(any(Transaction.class));
-
         // Act
         TransactionResponse response = service.createOrUpdateTransaction(id, request);
 
@@ -68,27 +53,25 @@ class TransactionServiceTest {
         assertEquals(new BigDecimal("100.0"), response.getAmount());
         assertEquals("cars", response.getType());
         assertNull(response.getParentId());
-
-        verify(repository).save(any(Transaction.class));
     }
 
     @Test
     void testCreateTransaction_WithParent_Success() {
         // Arrange
-        Long id = 2L;
         Long parentId = 1L;
+        TransactionRequest parentRequest = new TransactionRequest(
+                new BigDecimal("100.0"),
+                "cars",
+                null
+        );
+        service.createOrUpdateTransaction(parentId, parentRequest);
+
+        Long id = 2L;
         TransactionRequest request = new TransactionRequest(
                 new BigDecimal("50.0"),
                 "shopping",
                 parentId
         );
-
-        Transaction parent = new Transaction(parentId, new BigDecimal("100.0"), "cars", null);
-
-        when(repository.findById(id)).thenReturn(null);
-        when(repository.findById(parentId)).thenReturn(parent);
-        when(repository.findByParentId(anyLong())).thenReturn(new ArrayList<>());
-        doNothing().when(repository).save(any(Transaction.class));
 
         // Act
         TransactionResponse response = service.createOrUpdateTransaction(id, request);
@@ -99,8 +82,6 @@ class TransactionServiceTest {
         assertEquals(new BigDecimal("50.0"), response.getAmount());
         assertEquals("shopping", response.getType());
         assertEquals(parentId, response.getParentId());
-
-        verify(repository).save(any(Transaction.class));
     }
 
     @Test
@@ -114,9 +95,6 @@ class TransactionServiceTest {
                 parentId
         );
 
-        when(repository.findById(id)).thenReturn(null);
-        when(repository.findById(parentId)).thenReturn(null);
-
         // Act & Assert
         InvalidParentException exception = assertThrows(
                 InvalidParentException.class,
@@ -124,21 +102,18 @@ class TransactionServiceTest {
         );
 
         assertTrue(exception.getMessage().contains("no existe"));
-        verify(repository, never()).save(any(Transaction.class));
     }
 
     @Test
     void testGetTransactionById_WhenExists_ReturnsTransaction() {
         // Arrange
         Long id = 1L;
-        Transaction transaction = new Transaction(
-                id,
+        TransactionRequest request = new TransactionRequest(
                 new BigDecimal("100.0"),
                 "cars",
                 null
         );
-
-        when(repository.findById(id)).thenReturn(transaction);
+        service.createOrUpdateTransaction(id, request);
 
         // Act
         TransactionResponse response = service.getTransactionById(id);
@@ -154,7 +129,6 @@ class TransactionServiceTest {
     void testGetTransactionById_WhenNotExists_ThrowsException() {
         // Arrange
         Long id = 999L;
-        when(repository.findById(id)).thenReturn(null);
 
         // Act & Assert
         TransactionNotFoundException exception = assertThrows(
@@ -169,60 +143,43 @@ class TransactionServiceTest {
     void testCalculateSum_WithoutChildren_ReturnsOwnAmount() {
         // Arrange
         Long id = 10L;
-        Transaction transaction = new Transaction(
-                id,
+        TransactionRequest request = new TransactionRequest(
                 new BigDecimal("5000.0"),
                 "cars",
                 null
         );
-
-        when(repository.findById(id)).thenReturn(transaction);
-        when(repository.findByParentId(id)).thenReturn(new ArrayList<>());
+        service.createOrUpdateTransaction(id, request);
 
         // Act
         BigDecimal sum = service.calculateSum(id);
 
         // Assert
         assertEquals(new BigDecimal("5000.0"), sum);
-        verify(repository).findById(id);
-        verify(repository).findByParentId(id);
     }
 
     @Test
     void testCalculateSum_WithDirectChildren_ReturnsCorrectSum() {
         // Arrange
         Long parentId = 10L;
-        Transaction parent = new Transaction(
-                parentId,
+        service.createOrUpdateTransaction(parentId, new TransactionRequest(
                 new BigDecimal("5000.0"),
                 "cars",
                 null
-        );
+        ));
 
         Long childId1 = 11L;
-        Transaction child1 = new Transaction(
-                childId1,
+        service.createOrUpdateTransaction(childId1, new TransactionRequest(
                 new BigDecimal("10000.0"),
                 "shopping",
                 parentId
-        );
+        ));
 
         Long childId2 = 12L;
-        Transaction child2 = new Transaction(
-                childId2,
+        service.createOrUpdateTransaction(childId2, new TransactionRequest(
                 new BigDecimal("5000.0"),
                 "shopping",
                 parentId
-        );
-
-        List<Transaction> children = List.of(child1, child2);
-
-        when(repository.findById(parentId)).thenReturn(parent);
-        when(repository.findByParentId(parentId)).thenReturn(children);
-        when(repository.findById(childId1)).thenReturn(child1);
-        when(repository.findById(childId2)).thenReturn(child2);
-        when(repository.findByParentId(childId1)).thenReturn(new ArrayList<>());
-        when(repository.findByParentId(childId2)).thenReturn(new ArrayList<>());
+        ));
 
         // Act
         BigDecimal sum = service.calculateSum(parentId);
@@ -240,22 +197,25 @@ class TransactionServiceTest {
         //      └─ Transacción 12: 5000 (parent: 11)
         
         Long id10 = 10L;
-        Transaction t10 = new Transaction(id10, new BigDecimal("5000.0"), "cars", null);
+        service.createOrUpdateTransaction(id10, new TransactionRequest(
+                new BigDecimal("5000.0"),
+                "cars",
+                null
+        ));
 
         Long id11 = 11L;
-        Transaction t11 = new Transaction(id11, new BigDecimal("10000.0"), "shopping", id10);
+        service.createOrUpdateTransaction(id11, new TransactionRequest(
+                new BigDecimal("10000.0"),
+                "shopping",
+                id10
+        ));
 
         Long id12 = 12L;
-        Transaction t12 = new Transaction(id12, new BigDecimal("5000.0"), "shopping", id11);
-
-        when(repository.findById(id10)).thenReturn(t10);
-        when(repository.findByParentId(id10)).thenReturn(List.of(t11));
-        
-        when(repository.findById(id11)).thenReturn(t11);
-        when(repository.findByParentId(id11)).thenReturn(List.of(t12));
-        
-        when(repository.findById(id12)).thenReturn(t12);
-        when(repository.findByParentId(id12)).thenReturn(new ArrayList<>());
+        service.createOrUpdateTransaction(id12, new TransactionRequest(
+                new BigDecimal("5000.0"),
+                "shopping",
+                id11
+        ));
 
         // Act
         BigDecimal sum = service.calculateSum(id10);
@@ -274,7 +234,6 @@ class TransactionServiceTest {
     void testCalculateSum_WhenNotExists_ThrowsException() {
         // Arrange
         Long id = 999L;
-        when(repository.findById(id)).thenReturn(null);
 
         // Act & Assert
         TransactionNotFoundException exception = assertThrows(
@@ -295,8 +254,6 @@ class TransactionServiceTest {
                 id  // intentando ser su propio padre
         );
 
-        when(repository.findById(id)).thenReturn(null);
-
         // Act & Assert
         InvalidParentException exception = assertThrows(
                 InvalidParentException.class,
@@ -304,22 +261,35 @@ class TransactionServiceTest {
         );
 
         assertTrue(exception.getMessage().contains("no puede ser su propio padre"));
-        verify(repository, never()).save(any(Transaction.class));
     }
 
     @Test
     void testGetTransactionIdsByType_ReturnsCorrectIds() {
         // Arrange
-        String type = "cars";
-        List<Long> expectedIds = List.of(10L, 20L, 30L);
-
-        when(repository.findIdsByType(type)).thenReturn(expectedIds);
+        service.createOrUpdateTransaction(10L, new TransactionRequest(
+                new BigDecimal("5000.0"),
+                "cars",
+                null
+        ));
+        service.createOrUpdateTransaction(20L, new TransactionRequest(
+                new BigDecimal("3000.0"),
+                "cars",
+                null
+        ));
+        service.createOrUpdateTransaction(30L, new TransactionRequest(
+                new BigDecimal("2000.0"),
+                "shopping",
+                null
+        ));
 
         // Act
-        List<Long> result = service.getTransactionIdsByType(type);
+        var result = service.getTransactionIdsByType("cars");
 
         // Assert
-        assertEquals(expectedIds, result);
-        verify(repository).findIdsByType(type);
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(10L));
+        assertTrue(result.contains(20L));
+        assertFalse(result.contains(30L));
     }
 }
