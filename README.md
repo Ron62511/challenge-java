@@ -103,3 +103,54 @@ mvn spring-boot:run
 ```
 
 El servicio estará disponible en `http://localhost:8080`
+
+## Documentación de la API (Swagger)
+
+Una vez que la aplicación esté en ejecución, puedes acceder a la documentación interactiva de la API:
+
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI JSON**: `http://localhost:8080/api-docs`
+
+En Swagger UI podrás:
+- Ver todos los endpoints disponibles
+- Probar los endpoints directamente desde el navegador
+- Ver ejemplos de requests y responses
+- Explorar los modelos de datos (DTOs)
+
+## Ejemplos de Uso
+
+### Crear una transacción
+```bash
+curl -X PUT http://localhost:8080/transactions/10 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 5000,
+    "type": "cars"
+  }'
+```
+
+### Crear una transacción con parent
+```bash
+curl -X PUT http://localhost:8080/transactions/11 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 10000,
+    "type": "shopping",
+    "parent_id": 10
+  }'
+```
+
+### Obtener transacción por ID
+```bash
+curl http://localhost:8080/transactions/10
+```
+
+### Obtener IDs por tipo
+```bash
+curl http://localhost:8080/transactions/types/cars
+```
+
+### Calcular suma total
+```bash
+curl http://localhost:8080/transactions/sum/10
+```

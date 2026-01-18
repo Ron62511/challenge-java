@@ -2,6 +2,7 @@ com/example/transactions/dto/TransactionResponse.class
 com/example/transactions/repository/TransactionRepository.class
 com/example/transactions/controller/TransactionController.class
 com/example/transactions/exception/InvalidParentException.class
+com/example/transactions/config/OpenApiConfig.class
 com/example/transactions/dto/StatusResponse.class
 com/example/transactions/dto/TransactionRequest.class
 com/example/transactions/dto/SumResponse.class

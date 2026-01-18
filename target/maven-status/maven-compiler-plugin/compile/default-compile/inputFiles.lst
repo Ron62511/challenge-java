@@ -12,3 +12,4 @@
 /Users/ron/Documents/workspace/java/challenge-java/src/main/java/com/example/transactions/exception/DuplicateTransactionException.java
 /Users/ron/Documents/workspace/java/challenge-java/src/main/java/com/example/transactions/repository/TransactionRepository.java
 /Users/ron/Documents/workspace/java/challenge-java/src/main/java/com/example/transactions/service/TransactionService.java
+/Users/ron/Documents/workspace/java/challenge-java/src/main/java/com/example/transactions/config/OpenApiConfig.java
