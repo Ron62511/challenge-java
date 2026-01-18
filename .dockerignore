@@ -1,0 +1,45 @@
+# Archivos y directorios que no deben copiarse al contenedor Docker
+
+# Directorio target (artefactos compilados - se compila dentro del contenedor)
+target/
+
+# Archivos IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Documentación
+README.md
+*.md
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*~
+
+# Archivos de test y reportes
+target/surefire-reports/
+target/site/

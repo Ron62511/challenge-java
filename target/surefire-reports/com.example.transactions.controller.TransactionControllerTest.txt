@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.transactions.controller.TransactionControllerTest
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.938 s -- in com.example.transactions.controller.TransactionControllerTest
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.619 s -- in com.example.transactions.controller.TransactionControllerTest
