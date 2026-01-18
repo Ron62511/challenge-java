@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.transactions.controller.TransactionControllerTest" time="0.938" tests="15" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.002" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -56,94 +56,10 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testCreateOrUpdateTransaction_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.758">
-    <system-out><![CDATA[18:26:13.018 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.019 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.021 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 1 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransactionIdsByType_EmptyList_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.016">
-    <system-out><![CDATA[18:26:13.122 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.122 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.122 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransactionSum_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.012">
-    <system-out><![CDATA[18:26:13.136 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.136 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.136 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransactionIdsByType_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.009">
-    <system-out><![CDATA[18:26:13.147 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.147 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.147 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransactionSum_NotFound_ReturnsNotFound" classname="com.example.transactions.controller.TransactionControllerTest" time="0.015">
-    <system-out><![CDATA[18:26:13.157 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.157 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.157 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_Validation_TypeNull_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.024">
-    <system-out><![CDATA[18:26:13.172 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.172 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.172 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_Validation_EmptyRequestBody_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.01">
-    <system-out><![CDATA[18:26:13.196 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.197 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.197 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_Validation_AmountNull_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.012">
-    <system-out><![CDATA[18:26:13.208 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.208 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.208 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_WithParentId_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.012">
-    <system-out><![CDATA[18:26:13.219 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.219 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.219 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_Validation_AmountZero_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.013">
-    <system-out><![CDATA[18:26:13.230 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.231 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.231 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_Validation_AmountNegative_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.012">
-    <system-out><![CDATA[18:26:13.245 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.245 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.245 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransaction_NotFound_ReturnsNotFound" classname="com.example.transactions.controller.TransactionControllerTest" time="0.008">
-    <system-out><![CDATA[18:26:13.256 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.256 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.256 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransaction_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.008">
-    <system-out><![CDATA[18:26:13.264 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.264 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.264 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testCreateOrUpdateTransaction_InvalidParentId_ReturnsBadRequest" classname="com.example.transactions.controller.TransactionControllerTest" time="0.011">
-    <system-out><![CDATA[18:26:13.273 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.273 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.273 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
-  <testcase name="testGetTransactionSum_WithHierarchy_Success" classname="com.example.transactions.controller.TransactionControllerTest" time="0.009">
-    <system-out><![CDATA[18:26:13.285 [main] INFO org.springframework.mock.web.MockServletContext -- Initializing Spring TestDispatcherServlet ''
-18:26:13.285 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Initializing Servlet ''
-18:26:13.285 [main] INFO org.springframework.test.web.servlet.TestDispatcherServlet -- Completed initialization in 0 ms
-]]></system-out>
-  </testcase>
+  <testcase name="testGetCause" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.0"/>
+  <testcase name="testConstructorWithMessageAndCause" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.001"/>
+  <testcase name="testConstructorWithNullMessage" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.0"/>
+  <testcase name="testConstructorWithMessage" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.0"/>
+  <testcase name="testInheritance" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.0"/>
+  <testcase name="testConstructorWithEmptyMessage" classname="com.example.transactions.exception.DuplicateTransactionExceptionTest" time="0.0"/>
 </testsuite>

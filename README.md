@@ -52,7 +52,32 @@ challenge-java/
 
 ## Arquitectura en Capas
 
-El proyecto sigue estrictamente una arquitectura en capas:
+### Arquitectura en Capas (Layered Architecture)
+
+El proyecto sigue estrictamente una **arquitectura en capas** con inspiración **Clean**, pero sin llevarlo a hexagonal puro.
+
+#### Por qué esta arquitectura y no hexagonal completa
+
+- **Es un code challenge, no un sistema enterprise** → No requiere la complejidad adicional de una arquitectura hexagonal completa
+- **Spring Boot está naturalmente alineado a capas** → Framework que promueve el uso de capas claras
+- **Es fácil de leer, testear y justificar** → Facilita la mantenibilidad y comprensión del código
+- **Muestra buen criterio sin complejidad innecesaria** → Balance entre buenas prácticas y simplicidad
+
+### Capas del Sistema
+
+El flujo de datos sigue una arquitectura en capas clara y bien definida:
+
+```
+Controller (API)
+    ↓
+Service (Business Logic)
+    ↓
+Repository (In-memory persistence)
+    ↓
+Model (Domain)
+```
+
+### Responsabilidades de cada Capa
 
 - **Controller** → Expone endpoints REST y traduce HTTP ⇄ DTO
 - **Service** → Contiene toda la lógica de negocio y validaciones
